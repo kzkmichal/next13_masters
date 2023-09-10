@@ -42,9 +42,7 @@ const products: ProductType[] = [
 ];
 
 const Products = () => {
-	return (
-		<ProductList products={products} data-testid="products-list" />
-	);
+	return <ProductList products={products} />;
 };
 
 export default Products;
