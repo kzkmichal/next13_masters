@@ -1,6 +1,7 @@
 import React from "react";
-import ProductList from "../../components/organisms/ProductList";
+// import ProductList from "../../components/organisms/ProductList";
 import { type ProductType } from "@/app/types/types";
+import ProductListItem from "@/app/components/molecules/ProductListItem";
 
 const products: ProductType[] = [
 	{
@@ -42,7 +43,17 @@ const products: ProductType[] = [
 ];
 
 const Products = () => {
-	return <ProductList products={products} />;
+	// return <ProductList products={products} />;
+	return (
+		<ul
+			data-testid="products-list"
+			className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4"
+		>
+			{products?.map((item, index) => (
+				<ProductListItem key={index} {...item} />
+			))}
+		</ul>
+	);
 };
 
 export default Products;
