@@ -3,27 +3,27 @@ import ProductCoverImage from "../atoms/ProductCoverImage";
 import ProductListItemDescription from "../atoms/ProductListItemDescription";
 import { type ProductType } from "@/app/types/types";
 
-export type ProductListItemProps = ProductType;
+export type SingleProductTemplateProps = ProductType;
 
-const ProductListItem = ({
+const SingleProductTemplate = ({
 	title,
 	category,
 	price,
+	id,
 	coverImage,
-}: ProductListItemProps) => {
+}: SingleProductTemplateProps) => {
 	const productProps = {
 		title,
 		category,
 		price,
+		id,
 	};
 	return (
-		<li>
-			<article className="flex cursor-pointer flex-col gap-4">
-				<ProductCoverImage {...coverImage} />
-				<ProductListItemDescription {...productProps} />
-			</article>
-		</li>
+		<div>
+			<ProductCoverImage {...coverImage} />
+			<ProductListItemDescription {...productProps} />
+		</div>
 	);
 };
 
-export default ProductListItem;
+export default SingleProductTemplate;
