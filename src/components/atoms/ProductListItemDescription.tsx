@@ -16,7 +16,7 @@ const ProductListItemDescription = ({
 	return (
 		<div className="flex flex-col gap-2">
 			<div className="flex justify-between gap-2">
-				<h3 className="text-xl">{title}</h3>
+				<h1 className="text-xl">{title}</h1>
 				<p className="text-xl">{price}</p>
 			</div>
 			<div className="flex justify-between">

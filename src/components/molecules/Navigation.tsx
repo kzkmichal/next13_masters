@@ -7,7 +7,10 @@ const productsLink = {
 
 const Navigation = () => {
 	return (
-		<div className="w-full items-center px-24 py-4">
+		<nav
+			data-testid="navigation"
+			className="w-full items-center px-24 py-4"
+		>
 			<ul className="flex gap-4">
 				<li>
 					<ActiveLink
@@ -30,7 +33,7 @@ const Navigation = () => {
 					</ActiveLink>
 				</li>
 			</ul>
-		</div>
+		</nav>
 	);
 };
 
