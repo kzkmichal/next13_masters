@@ -2,7 +2,7 @@ import React from "react";
 import ActiveLink from "../atoms/ActiveLink";
 
 const productsLink = {
-	pathname: "/products/1",
+	pathname: "/products",
 };
 
 const Navigation = () => {
@@ -15,7 +15,7 @@ const Navigation = () => {
 				<li>
 					<ActiveLink
 						className="text-red-700"
-						activeClassName="underline"
+						activeClassName="border-b  border-b-red-700 "
 						exact={true}
 						href="/"
 					>
@@ -25,7 +25,7 @@ const Navigation = () => {
 				<li>
 					<ActiveLink
 						className="text-red-700"
-						activeClassName="underline"
+						activeClassName="border-b  border-b-red-700"
 						exact={false}
 						href={productsLink}
 					>

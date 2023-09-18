@@ -15,40 +15,44 @@ const Pagination = ({ pageNumber }: PaginationProps) => {
 	);
 
 	return (
-		<ul className="flex gap-4">
-			{pageNumber > 1 && (
-				<li>
-					<ActiveLink
-						href={`/products/${pageNumber - 1}`}
-						exact={true}
-					>
-						prev
-					</ActiveLink>
-				</li>
-			)}
-			{pageNumbers.map((item, i) => (
-				<li key={i}>
-					<ActiveLink
-						href={`/products/${item}`}
-						exact={false}
-						{...(item === i + 1 && { activeClassName: "underline" })}
-					>
-						{item}
-					</ActiveLink>
-				</li>
-			))}
+		<nav>
+			<ul className="flex gap-4" aria-label="pagination">
+				{pageNumber > 1 && (
+					<li>
+						<ActiveLink
+							href={`/products/${pageNumber - 1}`}
+							exact={true}
+						>
+							prev
+						</ActiveLink>
+					</li>
+				)}
+				{pageNumbers.map((item, i) => (
+					<li key={i}>
+						<ActiveLink
+							href={`/products/${item}`}
+							exact={false}
+							{...(item === i + 1 && {
+								activeClassName: "underline",
+							})}
+						>
+							{item}
+						</ActiveLink>
+					</li>
+				))}
 
-			{pageNumber < numberOfPages && (
-				<li>
-					<ActiveLink
-						href={`/products/${pageNumber + 1}`}
-						exact={true}
-					>
-						next
-					</ActiveLink>
-				</li>
-			)}
-		</ul>
+				{pageNumber < numberOfPages && (
+					<li>
+						<ActiveLink
+							href={`/products/${pageNumber + 1}`}
+							exact={true}
+						>
+							next
+						</ActiveLink>
+					</li>
+				)}
+			</ul>
+		</nav>
 	);
 };
 
