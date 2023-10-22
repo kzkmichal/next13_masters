@@ -1,0 +1,23 @@
+fragment ProductListItem on Product {
+	id
+	name
+	description
+	categories(first: 1) {
+		slug
+		name
+	}
+	collections(first: 1) {
+		slug
+		name
+	}
+	images(first: 1) {
+		url
+	}
+	price
+}
+
+fragment SingleProductColorVariant on ProductColorVariant {
+	name
+	color
+	id
+}

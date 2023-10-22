@@ -1,93 +1,101 @@
+import { executeGraphql } from "./grapqlApi";
 import {
-	type ProductType,
-	type ProductResponseType,
-} from "@/app/types/types";
-const link = "https://naszsklep-api.vercel.app/api/products";
+	ProductGetByIdDocument,
+	ProductsGetByCategorySlugDocument,
+	ProductsGetListDocument,
+	ProductsGetByCollectionSlugDocument,
+	ProductGetColorVariantsByIdDocument,
+	GetProductsByPageDocument,
+	type ProductListItemFragment,
+	type GetProductsByPageQueryVariables,
+	type ProductsGetBySearchQueryVariables,
+	ProductsGetBySearchDocument,
+} from "@/gql/graphql";
 
-const productResToProduct: (
-	res: ProductResponseType,
-) => ProductType = (res) => {
-	return {
-		id: res?.id,
-		title: res.title,
-		category: res.category,
-		price: res.price,
-		description: res.description,
-		coverImage: {
-			src: res.image,
-			alt: res.title,
-		},
-	};
-};
-
-export const getProducts = async () => {
-	const res = await fetch(`${link}?take=20`);
-	const productsRes = (await res.json()) as ProductResponseType[];
-
-	const products = productsRes.map(
-		(item): ProductType => ({
-			id: item?.id,
-			title: item.title,
-			category: item.category,
-			price: item.price,
-			description: item.description,
-			coverImage: {
-				src: item.image,
-				alt: item.title,
-			},
-		}),
-	);
-
-	return products;
-};
+export const PER_PAGE = 8;
 
 export const getProductById = async (
-	id: ProductResponseType["id"],
+	id: ProductListItemFragment["id"],
 ) => {
-	const res = await fetch(`${link}/${id}`);
+	const graphqlResponse = await executeGraphql({
+		query: ProductGetByIdDocument,
+		variables: { id },
+		next: {
+			revalidate: 1,
+		},
+	});
 
-	const productRes = (await res.json()) as ProductResponseType;
-
-	// const products = productsRes.map(
-	// 	(item): ProductType => ({
-	// 		id: item?.id,
-	// 		title: item.title,
-	// 		category: item.category,
-	// 		price: item.price,
-	// 		coverImage: {
-	// 			src: item.image,
-	// 			alt: item.title,
-	// 		},
-	// 	}),
-	// );
-
-	const product = productResToProduct(productRes);
-
-	return product;
+	return graphqlResponse.product;
 };
 
-export const getProductListPagination = async (
-	take: string,
-	offset: string,
+export const getProductList = async () => {
+	const graphqlResponse = await executeGraphql({
+		query: ProductsGetListDocument,
+		variables: {},
+		next: {
+			revalidate: 15,
+		},
+	});
+
+	return graphqlResponse.products;
+};
+
+export const getProductListBySearch = async (
+	query: ProductsGetBySearchQueryVariables["query"],
 ) => {
-	const res = await fetch(
-		`${link}?take=${take || 20}&offset=${offset}`,
-	);
-	const productsRes = (await res.json()) as ProductResponseType[];
+	const graphqlResponse = await executeGraphql({
+		query: ProductsGetBySearchDocument,
+		variables: { query },
+		// next: {
+		// 	revalidate: 15,
+		// },
+	});
 
-	const products = productsRes.map(
-		(item): ProductType => ({
-			id: item?.id,
-			title: item.title,
-			category: item.category,
-			price: item.price,
-			description: item.description,
-			coverImage: {
-				src: item.image,
-				alt: item.title,
-			},
-		}),
-	);
+	return graphqlResponse.products;
+};
 
-	return products;
+export const getProductsByPage = async (
+	productsCount: GetProductsByPageQueryVariables["productsCount"],
+	skip: GetProductsByPageQueryVariables["skip"],
+) => {
+	const graphqlResponse = await executeGraphql({
+		query: GetProductsByPageDocument,
+		variables: { productsCount, skip },
+		// next: {
+		// 	revalidate: 15,
+		// },
+	});
+
+	return graphqlResponse.products;
+};
+
+export const getProductsByCategorySlug = async (
+	categorySlug: string,
+) => {
+	const data = await executeGraphql({
+		query: ProductsGetByCategorySlugDocument,
+		variables: { slug: categorySlug },
+	});
+
+	return data.categories[0]?.products;
+};
+
+export const getProductsByCollectionSlug = async (
+	collectionSlug: string,
+) => {
+	const data = await executeGraphql({
+		query: ProductsGetByCollectionSlugDocument,
+		variables: { slug: collectionSlug },
+	});
+
+	return data.collections[0]?.products;
+};
+
+export const getProductColorVariantById = async (id: string) => {
+	const data = await executeGraphql({
+		query: ProductGetColorVariantsByIdDocument,
+		variables: { id: id },
+	});
+
+	return data.product;
 };

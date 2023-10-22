@@ -1,15 +1,21 @@
 import React from "react";
 import ProductListItem from "../molecules/ProductListItem";
-import { type ProductType } from "@/app/types/types";
+import { type ProductListItemFragment } from "@/gql/graphql";
 
-const ProductList = ({ products }: { products: ProductType[] }) => {
+const ProductList = ({
+	products,
+	isRelated = false,
+}: {
+	products: ProductListItemFragment[];
+	isRelated?: boolean;
+}) => {
 	return (
 		<ul
-			data-testid="products-list"
+			data-testid={isRelated ? "related-products" : "products-list"}
 			className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4"
 		>
-			{products?.map((item, index) => (
-				<ProductListItem key={index} {...item} />
+			{products?.map((product, index) => (
+				<ProductListItem key={index} product={product} />
 			))}
 		</ul>
 	);

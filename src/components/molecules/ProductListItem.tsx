@@ -2,28 +2,31 @@ import React from "react";
 import Link from "next/link";
 import ProductCoverImage from "../atoms/ProductCoverImage";
 import ProductListItemDescription from "../atoms/ProductListItemDescription";
-import { type ProductType } from "@/app/types/types";
+import { type ProductListItemFragment } from "@/gql/graphql";
 
-export type ProductListItemProps = ProductType;
+export type ProductListItemProps = {
+	product: ProductListItemFragment;
+};
 
-const ProductListItem = ({
-	title,
-	category,
-	price,
-	coverImage,
-	id,
-}: ProductListItemProps) => {
+const ProductListItem = ({ product }: ProductListItemProps) => {
+	const { name, categories, price, id, collections } = product;
+
 	const productProps = {
-		title,
-		category,
+		name,
+		categories,
 		price,
 		id,
+		collections,
 	};
+
+	const image = product.images[0];
 	return (
 		<li>
 			<Link href={`/product/${id}`}>
 				<article className="flex cursor-pointer flex-col gap-4">
-					<ProductCoverImage {...coverImage} />
+					{product.images.length && (
+						<ProductCoverImage url={image?.url} alt={name} />
+					)}
 					<ProductListItemDescription {...productProps} />
 				</article>
 			</Link>

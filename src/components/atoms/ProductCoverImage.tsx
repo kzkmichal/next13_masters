@@ -7,7 +7,7 @@ export type ProductCoverImageProps = ImageType;
 const ProductCoverImage = ({
 	width = 360,
 	height = 360,
-	src,
+	url,
 	alt = "",
 }: ProductCoverImageProps) => {
 	const imageProps = {
@@ -19,7 +19,7 @@ const ProductCoverImage = ({
 		<div className=" aspect-square overflow-hidden rounded-md">
 			<Image
 				alt={alt}
-				src={src || "/images/hanger.png"}
+				src={url || "/images/hanger.png"}
 				{...imageProps}
 				className=" h-full w-full object-cover object-center transition duration-300 hover:scale-110"
 			/>

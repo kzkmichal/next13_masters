@@ -1,26 +1,30 @@
 import React from "react";
+import { type Route } from "next";
 import ActiveLink from "../atoms/ActiveLink";
 
 export type PaginationProps = {
 	pageNumber: number;
+	pathName: string;
+	numberOfPages?: number;
 };
 
-const Pagination = ({ pageNumber }: PaginationProps) => {
-	const limit = 200;
-	const numberOfPages = Math.ceil(limit / 20);
-
+const Pagination = ({
+	pageNumber,
+	pathName,
+	numberOfPages = 0,
+}: PaginationProps) => {
 	const pageNumbers = Array.from(
 		{ length: numberOfPages },
 		(_, i) => 1 + i,
 	);
 
 	return (
-		<nav>
+		<nav className="mt-4">
 			<ul className="flex gap-4" aria-label="pagination">
 				{pageNumber > 1 && (
 					<li>
 						<ActiveLink
-							href={`/products/${pageNumber - 1}`}
+							href={`/${pathName}/${pageNumber - 1}` as Route}
 							exact={true}
 						>
 							prev
@@ -30,7 +34,7 @@ const Pagination = ({ pageNumber }: PaginationProps) => {
 				{pageNumbers.map((item, i) => (
 					<li key={i}>
 						<ActiveLink
-							href={`/products/${item}`}
+							href={`/${pathName}/${item}` as Route}
 							exact={false}
 							{...(item === i + 1 && {
 								activeClassName: "underline",
@@ -44,7 +48,7 @@ const Pagination = ({ pageNumber }: PaginationProps) => {
 				{pageNumber < numberOfPages && (
 					<li>
 						<ActiveLink
-							href={`/products/${pageNumber + 1}`}
+							href={`/${pathName}/${pageNumber + 1}` as Route}
 							exact={true}
 						>
 							next

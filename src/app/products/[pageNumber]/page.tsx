@@ -1,10 +1,11 @@
 import React from "react";
 import ProductList from "../../../components/organisms/ProductList";
 import Pagination from "@/components/molecules/Pagination";
-import {
-	getProductListPagination,
-	// getProducts,
-} from "@/api/products";
+import { getProductList, getProductsByPage } from "@/api/products";
+
+const constants = {
+	productsPerPage: 4,
+};
 
 export type ProductsProps = {
 	params: { pageNumber: string };
@@ -12,22 +13,39 @@ export type ProductsProps = {
 };
 
 export const generateStaticParams = async () => {
-	return Array.from({ length: 10 }, (_, index) => ({
+	const allProducts = await getProductList();
+
+	const numberOfPages = Math.ceil(
+		allProducts.length / constants.productsPerPage,
+	);
+
+	return Array.from({ length: numberOfPages }, (_, index) => ({
 		pageNumber: `${index + 1}`,
 	}));
 };
 
 const Products = async ({ params }: ProductsProps) => {
-	// const products = await getProducts();
-	const products = await getProductListPagination(
-		"20",
-		params.pageNumber,
+	const allProducts = await getProductList();
+	const pageNumber = Number(params.pageNumber);
+	const skipOffset = (pageNumber - 1) * constants.productsPerPage;
+
+	const products = await getProductsByPage(
+		constants.productsPerPage,
+		skipOffset,
+	);
+
+	const numberOfPages = Math.ceil(
+		allProducts.length / constants.productsPerPage,
 	);
 
 	return (
 		<>
-			<ProductList products={products} />;
-			<Pagination pageNumber={+params.pageNumber} />
+			<ProductList products={products} />
+			<Pagination
+				pathName="products"
+				numberOfPages={numberOfPages}
+				pageNumber={pageNumber}
+			/>
 		</>
 	);
 };

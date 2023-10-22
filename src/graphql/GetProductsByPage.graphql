@@ -1,0 +1,5 @@
+query GetProductsByPage($productsCount: Int!, $skip: Int!) {
+	products(first: $productsCount, skip: $skip) {
+		...ProductListItem
+	}
+}

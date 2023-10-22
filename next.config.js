@@ -12,6 +12,21 @@ const nextConfig = {
 				pathname: "/images/**",
 			},
 		],
+		domains: ["media.graphassets.com"],
+	},
+	redirects: async () => {
+		return [
+			{
+				source: "/products",
+				destination: "/products/1",
+				permanent: true,
+			},
+			{
+				source: "/categories/:category",
+				destination: "/categories/:category/1",
+				permanent: true,
+			},
+		];
 	},
 };
 
