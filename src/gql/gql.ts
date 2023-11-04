@@ -14,16 +14,21 @@ import * as types from './graphql';
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "query CollectionGetBySlug($slug: String!) {\n  collections(first: 1, where: {slug: $slug}) {\n    ...CollectionName\n  }\n}": types.CollectionGetBySlugDocument,
     "query ProductsGetByCategorySlug($slug: String!) {\n  categories(where: {slug: $slug}) {\n    products {\n      ...ProductListItem\n    }\n  }\n}": types.ProductsGetByCategorySlugDocument,
     "query ProductsGetByCollectionSlug($slug: String!) {\n  collections(where: {slug: $slug}) {\n    products {\n      ...ProductListItem\n    }\n  }\n}": types.ProductsGetByCollectionSlugDocument,
     "query ProductsGetBySearch($query: String!) {\n  products(where: {_search: $query}) {\n    ...ProductListItem\n  }\n}": types.ProductsGetBySearchDocument,
     "query GetProductsByPage($productsCount: Int!, $skip: Int!) {\n  products(first: $productsCount, skip: $skip) {\n    ...ProductListItem\n  }\n}": types.GetProductsByPageDocument,
     "query ProductGetById($id: ID!) {\n  product(where: {id: $id}) {\n    ...ProductListItem\n  }\n}": types.ProductGetByIdDocument,
     "query ProductGetColorVariantsById($id: ID!) {\n  product(where: {id: $id}) {\n    variants {\n      ... on ProductColorVariant {\n        ...SingleProductColorVariant\n      }\n    }\n  }\n}": types.ProductGetColorVariantsByIdDocument,
-    "fragment ProductListItem on Product {\n  id\n  name\n  description\n  categories(first: 1) {\n    slug\n    name\n  }\n  collections(first: 1) {\n    slug\n    name\n  }\n  images(first: 1) {\n    url\n  }\n  price\n}\n\nfragment SingleProductColorVariant on ProductColorVariant {\n  name\n  color\n  id\n}": types.ProductListItemFragmentDoc,
+    "fragment ProductListItem on Product {\n  id\n  name\n  description\n  categories(first: 1) {\n    slug\n    name\n  }\n  collections(first: 1) {\n    ...CollectionName\n  }\n  images(first: 1) {\n    url\n  }\n  price\n}\n\nfragment SingleProductColorVariant on ProductColorVariant {\n  name\n  color\n  id\n}\n\nfragment CollectionName on Collection {\n  slug\n  name\n}": types.ProductListItemFragmentDoc,
     "query ProductsGetList {\n  products {\n    ...ProductListItem\n  }\n}": types.ProductsGetListDocument,
 };
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query CollectionGetBySlug($slug: String!) {\n  collections(first: 1, where: {slug: $slug}) {\n    ...CollectionName\n  }\n}"): typeof import('./graphql').CollectionGetBySlugDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -51,7 +56,7 @@ export function graphql(source: "query ProductGetColorVariantsById($id: ID!) {\n
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "fragment ProductListItem on Product {\n  id\n  name\n  description\n  categories(first: 1) {\n    slug\n    name\n  }\n  collections(first: 1) {\n    slug\n    name\n  }\n  images(first: 1) {\n    url\n  }\n  price\n}\n\nfragment SingleProductColorVariant on ProductColorVariant {\n  name\n  color\n  id\n}"): typeof import('./graphql').ProductListItemFragmentDoc;
+export function graphql(source: "fragment ProductListItem on Product {\n  id\n  name\n  description\n  categories(first: 1) {\n    slug\n    name\n  }\n  collections(first: 1) {\n    ...CollectionName\n  }\n  images(first: 1) {\n    url\n  }\n  price\n}\n\nfragment SingleProductColorVariant on ProductColorVariant {\n  name\n  color\n  id\n}\n\nfragment CollectionName on Collection {\n  slug\n  name\n}"): typeof import('./graphql').ProductListItemFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

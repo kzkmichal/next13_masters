@@ -40,7 +40,7 @@ const Products = async ({ params }: ProductsProps) => {
 
 	return (
 		<>
-			<ProductList products={products} />
+			<ProductList products={products} isRelated={false} />
 			<Pagination
 				pathName="products"
 				numberOfPages={numberOfPages}

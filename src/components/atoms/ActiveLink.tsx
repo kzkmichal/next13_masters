@@ -18,18 +18,12 @@ const ActiveLink = ({
 	children,
 	exact,
 }: ActiveLinkProps) => {
-	const pathName = usePathname();
+	const currentPath = usePathname();
+	const path = typeof href === "string" ? href : href.pathname || "";
 
-	let isActive: boolean = false;
-	const matchedPath: string = typeof href === "string" ? href : "";
-
-	if (matchedPath) {
-		isActive = exact
-			? pathName === matchedPath
-			: pathName.startsWith(matchedPath) &&
-			  (pathName[matchedPath.length] === "/" ||
-					pathName.length === matchedPath.length);
-	}
+	const isActive = exact
+		? currentPath === path
+		: currentPath.startsWith(`${path}/`);
 
 	return (
 		<Link

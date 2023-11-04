@@ -29,7 +29,6 @@ const Search = () => {
 
 		const newTypingTimeout = window.setTimeout(() => {
 			setSearchParams();
-			console.log(params);
 		}, 500);
 		setTypingTimeout(newTypingTimeout);
 	};
@@ -45,6 +44,7 @@ const Search = () => {
 	return (
 		<div className="flex rounded-md border border-blue-500 p-1">
 			<input
+				role="searchbox"
 				type="text"
 				placeholder="Search"
 				className="input bg-base-200 w-full rounded-none text-sm outline-none focus:border-slate-950 focus:border-opacity-100 focus:outline-none"

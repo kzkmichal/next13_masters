@@ -1,4 +1,4 @@
-import Image from "next/image";
+import NextImage from "next/image";
 import React from "react";
 import { type ImageType } from "@/app/types/types";
 
@@ -17,7 +17,7 @@ const ProductCoverImage = ({
 
 	return (
 		<div className=" aspect-square overflow-hidden rounded-md">
-			<Image
+			<NextImage
 				alt={alt}
 				src={url || "/images/hanger.png"}
 				{...imageProps}

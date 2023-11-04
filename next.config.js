@@ -24,7 +24,7 @@ const nextConfig = {
 			{
 				source: "/categories/:category",
 				destination: "/categories/:category/1",
-				permanent: true,
+				permanent: false,
 			},
 		];
 	},

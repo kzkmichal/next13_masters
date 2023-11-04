@@ -7,8 +7,7 @@ fragment ProductListItem on Product {
 		name
 	}
 	collections(first: 1) {
-		slug
-		name
+		...CollectionName
 	}
 	images(first: 1) {
 		url
@@ -20,4 +19,9 @@ fragment SingleProductColorVariant on ProductColorVariant {
 	name
 	color
 	id
+}
+
+fragment CollectionName on Collection {
+	slug
+	name
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { type Metadata } from "next";
 import SingleProductTemplate from "@/components/molecules/SingleProductTemplate";
@@ -37,15 +37,17 @@ const SingleProductPage = async ({
 		throw notFound();
 	}
 	return (
-		<div className="flex flex-col gap-8">
+		<div className="flex flex-col gap-8" aria-busy="true">
 			<SingleProductTemplate product={product} />
 			{relatedProducts && (
-				<div className="flex flex-col gap-4 ">
+				<div className="flex flex-col gap-4">
 					<h3 className="text-center text-2xl"> Related products</h3>
-					<ProductList
-						products={relatedProducts.slice(0, 4)}
-						isRelated={true}
-					/>
+					<Suspense fallback={"Loading..."}>
+						<ProductList
+							products={relatedProducts.slice(0, 4)}
+							isRelated={true}
+						/>
+					</Suspense>
 				</div>
 			)}
 		</div>

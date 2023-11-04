@@ -19,7 +19,7 @@ const SearchPage = async ({
 
 	return (
 		<div>
-			<ProductList products={products} />
+			<ProductList products={products} isRelated={false} />
 		</div>
 	);
 };
